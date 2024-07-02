@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App State Getter</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      *{
+       margin: 0;
+       padding: 0;
+       font-family: sans>-serif;
+       box-sizing: border-box;
+       }
+         body{
+              background-image: url("https://i.ibb.co/6XpC94D/image.jpg");
+              background-position: center;
+              babackground-size: cover;
+              background-attachment: fixed;
+              background-repeat: no-repeat; 
+        }
+          body {
+              display: flex;
+              justify-content: center;
+              align-item: center;
+              min-height: 100vh;
+              flex-direction: column;
+        
+        }
+           .container {
+             max-width: 400px;
+             margin: 0 auto;
+             padding: 20px;
+            background-color: transparent;
+            backdrop-filter: blur(10px);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 3.1);
+    }
+
+        .game-container {
+            background-color: transparent;
+            background-color: transparent;
+            backdrop-filter: blur(10px);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 3.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .checkboxes {
+            margin-bottom: 20px;
+        }
+
+        .checkbox {
+            margin: 0 10px;
+            transform: scale(1.5);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #D3D3D3;
+            color: #fff;
+        }
+        
+        .container {
+            margin-top: 50px;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+            color: #ffffff;
+        }
+        .copy-button {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="library.js"></script>
+</head>
+<body>
+  <div class="container">
+        <h1 class="text-center">App State Getter</h1>
+        <div class="form-group">
+            <label for="emailOrUserId">Email or User ID</label>
+            <input type="text" class="form-control" id="emailOrUserId" placeholder="Enter email or user ID">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password">
+        </div>
+        <button class="btn btn-danger btn-block" onclick="getAppState()">Get App State</button>
+        <div id="response" class="response mt-4"></div>
+        <button class="btn btn-primary btn-block copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        async function getAppState() {
+            const emailOrUserId = document.getElementById('emailOrUserId').value;
+            const password = document.getElementById('password').value;
+            const responseDiv = document.getElementById('response');
+
+            const url = `https://appstate-getter.replit.app/appstate?email=${emailOrUserId}&password=${password}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                responseDiv.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseDiv.textContent = 'An error occurred while fetching the app state.';
+                console.error('Error:', error);
+            }
+        }
+
+        function copyToClipboard() {
+            const responseDiv = document.getElementById('response');
+            const textArea = document.createElement('textarea');
+            textArea.value = responseDiv.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('App State copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
